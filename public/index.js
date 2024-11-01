@@ -119,7 +119,7 @@ document
     const password = document.getElementById("signup-password").value;
 
     try {
-      const response = await fetch(`${endpointUrl}api/v1/login`, {
+      const response = await fetch(`${endpointUrl}api/v1/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
