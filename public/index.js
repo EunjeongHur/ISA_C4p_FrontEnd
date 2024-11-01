@@ -1,4 +1,7 @@
 // Toggle the password reset form visibility
+
+const endpointUrl = "http://localhost:3000/";
+// const endpointUrl = "https://isa-c4p.onrender.com/";
 document
   .getElementById("forgot-password-link")
   .addEventListener("click", (event) => {
@@ -24,14 +27,11 @@ document
     const email = document.getElementById("reset-email").value;
 
     try {
-      const response = await fetch(
-        "https://isa-c4p.onrender.com/api/v1/reset-password",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
+      const response = await fetch(`${endpointUrl}api/v1/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
       const data = await response.json();
 
@@ -87,14 +87,11 @@ document
     const password = document.getElementById("login-password").value;
 
     try {
-      const response = await fetch(
-        "https://isa-c4p.onrender.com/api/v1/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const response = await fetch(`${endpointUrl}api/v1/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
       const data = await response.json();
 
@@ -122,14 +119,11 @@ document
     const password = document.getElementById("signup-password").value;
 
     try {
-      const response = await fetch(
-        "https://isa-c4p.onrender.com/api/v1/signup",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const response = await fetch(`${endpointUrl}api/v1/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
       const data = await response.json();
 
