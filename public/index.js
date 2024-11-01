@@ -1,13 +1,13 @@
 // Toggle the password reset form visibility
 document
-	.getElementById("forgot-password-link")
-	.addEventListener("click", (event) => {
-		event.preventDefault();
-		document.getElementById("login-section").classList.add("d-none");
-		document
-			.getElementById("reset-password-section")
-			.classList.remove("d-none");
-	});
+  .getElementById("forgot-password-link")
+  .addEventListener("click", (event) => {
+    event.preventDefault();
+    document.getElementById("login-section").classList.add("d-none");
+    document
+      .getElementById("reset-password-section")
+      .classList.remove("d-none");
+  });
 
 // Back to login button in the reset password section
 document.getElementById("back-to-login").addEventListener("click", (event) => {
@@ -25,7 +25,7 @@ document
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/v1/reset-password",
+        "https://isa-c4p.onrender.com/api/v1/reset-password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -87,11 +87,14 @@ document
     const password = document.getElementById("login-password").value;
 
     try {
-      const response = await fetch("http://localhost:3000/api/v1/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://isa-c4p.onrender.com/api/v1/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
@@ -119,20 +122,14 @@ document
     const password = document.getElementById("signup-password").value;
 
     try {
-      const response = await fetch("http://localhost:3000/api/v1/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-		try {
-			const response = await fetch(
-				"https://isa-c4p.onrender.com/api/v1/signup",
-				{
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ email, password }),
-				}
-			);
+      const response = await fetch(
+        "https://isa-c4p.onrender.com/api/v1/signup",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
