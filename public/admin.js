@@ -1,3 +1,5 @@
+const endpointUrl = "http://localhost:3000/";
+
 document.addEventListener("DOMContentLoaded", async () => {
   const isAdmin = await checkAdminAccess();
   if (!isAdmin) {
@@ -5,24 +7,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/"; // Redirect non-admins to the home page or login
     return;
   }
+
+  // Load the user table for admins
   await loadUserTable();
 });
 
 // Function to check if the user is an admin
 async function checkAdminAccess() {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    console.warn("No token found, redirecting to login.");
+    return false; // Token missing, user is not authenticated
+  }
+
   try {
-    const response = await fetch(
-      "https://your-user-api.com/api/v1/check-role",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await fetch(`${endpointUrl}api/v1/check-role`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = await response.json();
-    return response.ok && data.role === "admin"; // True if user is admin
+
+    // Check if the response is successful and role is 'admin'
+    if (response.ok && data.role === "admin") {
+      return true;
+    } else {
+      console.warn("Unauthorized access attempt detected.");
+      return false;
+    }
   } catch (error) {
     console.error("Authorization error:", error);
     return false;
@@ -32,11 +47,12 @@ async function checkAdminAccess() {
 // Function to fetch users and populate the table
 async function loadUserTable() {
   try {
-    const response = await fetch("https://your-user-api.com/api/v1/users", {
+    const token = localStorage.getItem("token");
+    const response = await fetch(`${endpointUrl}api/v1/users`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -67,13 +83,13 @@ function populateTable(users) {
 
     // Create table cells for each field
     const userIdCell = document.createElement("td");
-    userIdCell.textContent = user.id;
+    userIdCell.textContent = user.user_id;
 
     const emailCell = document.createElement("td");
     emailCell.textContent = user.email;
 
     const requestCountCell = document.createElement("td");
-    requestCountCell.textContent = user.requestCount;
+    requestCountCell.textContent = user.request_count;
 
     // Append cells to the row
     row.appendChild(userIdCell);

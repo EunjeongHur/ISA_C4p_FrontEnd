@@ -1,9 +1,11 @@
+const userEndpoint = "http://localhost:3000/";
+
 document.addEventListener("DOMContentLoaded", async () => {
   // Check if user is authenticated on page load
   const isAuthenticated = await checkAuthentication();
   if (!isAuthenticated) {
     alert("Please sign in to access this page.");
-    window.location.href = "/login"; // Redirect to the login page
+    window.location.href = "/"; // Redirect to the index page for login
     return;
   }
 
@@ -14,23 +16,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Function to check if the user is authenticated
 async function checkAuthentication() {
   const token = localStorage.getItem("token");
-  if (!token) return false; // No token found, so user is not authenticated
+  if (!token) {
+    console.log("no token found");
+    return false; // No token found, so user is not authenticated
+  }
 
   try {
     // Verify the token with a backend endpoint
-    const response = await fetch(
-      "https://your-user-api.com/api/v1/verify-token",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`${userEndpoint}api/v1/verify-token`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.ok; // True if the token is valid
   } catch (error) {
     console.error("Authentication error:", error);
+    localStorage.removeItem("token");
     return false;
   }
 }
@@ -42,30 +45,35 @@ document
     const question = document.getElementById("question").value;
 
     try {
+      // temp llm sim
+      const llmData = { answer: "What would Kant say?" };
+      addResponseCard(question, llmData.answer);
+      await incrementRequestCount();
+      await checkRequestCount();
       // Step 1: Send question to the LLM endpoint
-      const llmResponse = await fetch(
-        "https://your-llm-endpoint.com/api/v1/legal-question",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question }),
-        }
-      );
+      // const llmResponse = await fetch(
+      //   "https://your-llm-endpoint.com/api/v1/legal-question",
+      //   {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({ question }),
+      //   }
+      // );
 
-      const llmData = await llmResponse.json();
+      //   const llmData = await llmResponse.json();
 
-      if (llmResponse.ok) {
-        addResponseCard(question, llmData.answer || "No response received.");
+      //   if (llmResponse.ok) {
+      //     addResponseCard(question, llmData.answer || "No response received.");
 
-        // Step 2: If LLM request is successful, increment request count
-        await incrementRequestCount();
-        await checkRequestCount(); // Check if warning should be shown
-      } else {
-        addResponseCard(
-          question,
-          "An error occurred while processing your question."
-        );
-      }
+      //     // Step 2: If LLM request is successful, increment request count
+      //     await incrementRequestCount();
+      //     await checkRequestCount(); // Check if warning should be shown
+      //   } else {
+      //     addResponseCard(
+      //       question,
+      //       "An error occurred while processing your question."
+      //     );
+      //   }
     } catch (error) {
       console.error("Error:", error);
       addResponseCard(question, "An error occurred. Please try again.");
@@ -80,7 +88,7 @@ async function incrementRequestCount() {
   try {
     const token = localStorage.getItem("token");
     const userResponse = await fetch(
-      "https://your-user-api.com/api/v1/increment-request-count",
+      `${userEndpoint}api/v1/increment-request-count`,
       {
         method: "POST",
         headers: {
@@ -97,22 +105,19 @@ async function incrementRequestCount() {
   }
 }
 
-// Function to check request count and display a warning if at or above limit
 async function checkRequestCount() {
   try {
     const token = localStorage.getItem("token");
-    const userResponse = await fetch(
-      "https://your-user-api.com/api/v1/request-count",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const userResponse = await fetch(`${userEndpoint}api/v1/request-count`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const userData = await userResponse.json();
 
+    // Display warning if the request count is at or above 20
     if (userResponse.ok && userData.requestCount >= 20) {
       displayWarning("You have reached your free 20-question limit.");
     }
@@ -150,5 +155,9 @@ function displayWarning(message) {
     document.querySelector(".container").prepend(warningDiv);
   }
 
+  // Set the warning message text
   warningDiv.textContent = message;
+
+  // Ensure the warning is visible by removing the 'd-none' class
+  warningDiv.classList.remove("d-none");
 }

@@ -7,10 +7,16 @@ const publicDirectory = path.join(__dirname, "public");
 
 const server = http.createServer((req, res) => {
   // Set the default file to index.html for the root URL
-  let filePath =
-    req.url === "/"
-      ? path.join(publicDirectory, "index.html")
-      : path.join(publicDirectory, req.url);
+  let filePath;
+  if (req.url === "/") {
+    filePath = path.join(publicDirectory, "index.html");
+  } else if (req.url === "/main") {
+    filePath = path.join(publicDirectory, "main.html");
+  } else if (req.url === "/admin") {
+    filePath = path.join(publicDirectory, "admin.html");
+  } else {
+    filePath = path.join(publicDirectory, req.url);
+  }
 
   // Determine the content type based on the file extension
   const extname = path.extname(filePath);
