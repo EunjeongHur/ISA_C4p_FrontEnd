@@ -25,7 +25,7 @@ document
 
     try {
       const response = await fetch(
-        "https://localhost:3000/api/v1/reset-password",
+        "http://localhost:3000/api/v1/reset-password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -87,7 +87,7 @@ document
     const password = document.getElementById("login-password").value;
 
     try {
-      const response = await fetch("https://localhost:3000/api/v1/login", {
+      const response = await fetch("http://localhost:3000/api/v1/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -119,7 +119,7 @@ document
     const password = document.getElementById("signup-password").value;
 
     try {
-      const response = await fetch("https://localhost:3000/api/v1/signup", {
+      const response = await fetch("http://localhost:3000/api/v1/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
