@@ -1,5 +1,4 @@
-require("dotenv").config();
-const endpointUrl = process.env.ENDPOINT;
+const endpointUrl = "https://isa-c4p.onrender.com/";
 
 document.addEventListener("DOMContentLoaded", async () => {
   // Check if user is authenticated on page load

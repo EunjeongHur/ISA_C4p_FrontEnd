@@ -1,5 +1,4 @@
-require("dotenv").config();
-const endpointUrl = process.env.ENDPOINT;
+const endpointUrl = "https://isa-c4p.onrender.com/";
 
 document
   .getElementById("resetForm")

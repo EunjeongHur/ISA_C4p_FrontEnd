@@ -1,8 +1,7 @@
 // Toggle the password reset form visibility
 
-require("dotenv").config();
-const endpointUrl = process.env.ENDPOINT;
-
+//const endpointUrl = "http://localhost:3000/";
+const endpointUrl = "https://isa-c4p.onrender.com/";
 document
   .getElementById("forgot-password-link")
   .addEventListener("click", (event) => {
