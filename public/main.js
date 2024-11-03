@@ -53,20 +53,20 @@ document
 
 			// Step 1: Send question to the LLM endpoint
 			const llmResponse = await fetch(
-				`http://localhost:3000/api/v1/generateLegalResponse`,
+				"http://localhost:3000/api/v1/summarizeText",
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ question }),
+					body: JSON.stringify({ input: question }),
 				}
 			);
 
 			const llmData = await llmResponse.json();
 
-			if (llmResponse.ok) {
-				addResponseCard(
+			if (await llmResponse.ok) {
+				await addResponseCard(
 					question,
-					llmData.answer || "No response received."
+					llmData.summary || "No response received."
 				);
 
 				// Step 2: If LLM request is successful, increment request count
