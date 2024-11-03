@@ -1,3 +1,6 @@
+require("dotenv").config();
+const endpointUrl = process.env.ENDPOINT;
+
 document
   .getElementById("resetForm")
   .addEventListener("submit", async (event) => {
@@ -7,14 +10,11 @@ document
     const newPassword = document.getElementById("newPassword").value;
 
     try {
-      const response = await fetch(
-        "https://localhost:3000/api/v1/update-password",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token, newPassword }),
-        }
-      );
+      const response = await fetch(`${endpointUrl}api/v1/update-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, newPassword }),
+      });
       const data = await response.json();
       document.getElementById("responseMessage").textContent = data.message;
     } catch (error) {

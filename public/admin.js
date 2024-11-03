@@ -1,4 +1,5 @@
-const endpointUrl = "http://localhost:3000/";
+require("dotenv").config();
+const endpointUrl = process.env.ENDPOINT;
 
 document.addEventListener("DOMContentLoaded", async () => {
   const isAdmin = await checkAdminAccess();
