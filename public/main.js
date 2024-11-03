@@ -17,13 +17,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function checkAuthentication() {
   const token = localStorage.getItem("token");
   if (!token) {
-    console.log("no token found");
+    console.log("No token found");
     return false; // No token found, so user is not authenticated
   }
 
   try {
     // Verify the token with a backend endpoint
-    const response = await fetch(`${userEndpoint}api/v1/verify-token`, {
+    const response = await fetch(`${endpointUrl}api/v1/verify-token`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -38,52 +38,38 @@ async function checkAuthentication() {
   }
 }
 
+// Handle form submission for text summarization
 document
   .getElementById("question-form")
   .addEventListener("submit", async (event) => {
     event.preventDefault();
-    const question = document.getElementById("question").value;
+    const text = document.getElementById("question").value;
 
     try {
-      // temp llm sim
-      // const llmData = { answer: "What would Kant say?" };
-      // addResponseCard(question, llmData.answer);
-      // await incrementRequestCount();
-      // await checkRequestCount();
+      // Send text to the AI summarization endpoint
+      const response = await fetch(`${endpointUrl}api/v1/summarizeText`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: text }),
+      });
 
-      // Step 1: Send question to the LLM endpoint
-      const llmResponse = await fetch(
-        "http://localhost:3000/api/v1/summarizeText",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ input: question }),
-        }
-      );
+      const data = await response.json();
 
-      const llmData = await llmResponse.json();
+      if (response.ok) {
+        addResponseCard(data.summary || "No response received.");
 
-      if (await llmResponse.ok) {
-        await addResponseCard(
-          question,
-          llmData.summary || "No response received."
-        );
-
-        // Step 2: If LLM request is successful, increment request count
+        // Increment request count if the summarization was successful
         await incrementRequestCount();
         await checkRequestCount(); // Check if warning should be shown
       } else {
-        addResponseCard(
-          question,
-          "An error occurred while processing your question."
-        );
+        addResponseCard("An error occurred while processing your text.");
       }
     } catch (error) {
       console.error("Error:", error);
-      addResponseCard(question, "An error occurred. Please try again.");
+      addResponseCard("An error occurred. Please try again.");
     }
 
-    // Clear the question field for a new question
+    // Clear the text field for a new input
     document.getElementById("question").value = "";
   });
 
@@ -91,8 +77,8 @@ document
 async function incrementRequestCount() {
   try {
     const token = localStorage.getItem("token");
-    const userResponse = await fetch(
-      `${userEndpoint}api/v1/increment-request-count`,
+    const response = await fetch(
+      `${endpointUrl}api/v1/increment-request-count`,
       {
         method: "POST",
         headers: {
@@ -101,7 +87,7 @@ async function incrementRequestCount() {
         },
       }
     );
-    if (!userResponse.ok) {
+    if (!response.ok) {
       console.warn("Failed to increment request count.");
     }
   } catch (error) {
@@ -109,21 +95,22 @@ async function incrementRequestCount() {
   }
 }
 
+// Function to check request count and display a warning if at or above limit
 async function checkRequestCount() {
   try {
     const token = localStorage.getItem("token");
-    const userResponse = await fetch(`${userEndpoint}api/v1/request-count`, {
+    const response = await fetch(`${endpointUrl}api/v1/request-count`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
-    const userData = await userResponse.json();
+    const data = await response.json();
 
     // Display warning if the request count is at or above 20
-    if (userResponse.ok && userData.requestCount >= 20) {
-      displayWarning("You have reached your free 20-question limit.");
+    if (response.ok && data.requestCount >= 20) {
+      displayWarning("You have reached your free 20-request limit.");
     }
   } catch (error) {
     console.error("Error checking request count:", error);
@@ -131,17 +118,15 @@ async function checkRequestCount() {
 }
 
 // Function to add a new response card to the responses container
-function addResponseCard(question, answer) {
+function addResponseCard(summary) {
   const responsesContainer = document.getElementById("responses-container");
 
   const card = document.createElement("div");
   card.className = "card mb-3";
   card.innerHTML = `
         <div class="card-body">
-            <h5 class="card-title">Question</h5>
-            <p class="card-text">${question}</p>
-            <h5 class="card-title">Response</h5>
-            <p class="card-text">${answer}</p>
+            <h5 class="card-title">Summarized Text</h5>
+            <p class="card-text">${summary}</p>
         </div>
     `;
 
