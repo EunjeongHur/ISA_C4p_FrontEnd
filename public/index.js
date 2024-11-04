@@ -1,7 +1,7 @@
 // Toggle the password reset form visibility
 
 //const endpointUrl = "http://localhost:3000/";
-const endpointUrl = "https://isa-c4p.onrender.com/";
+const endpointUrl = "https://isa-c4p-ql4s.onrender.com/";
 document
   .getElementById("forgot-password-link")
   .addEventListener("click", (event) => {
