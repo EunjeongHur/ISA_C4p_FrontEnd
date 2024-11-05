@@ -33,6 +33,8 @@ document
         body: JSON.stringify({ email }),
       });
 
+      console.log("Response status:", response.status);
+
       const data = await response.json();
 
       if (response.ok) {
