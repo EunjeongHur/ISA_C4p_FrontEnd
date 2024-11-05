@@ -125,11 +125,14 @@ document
     const password = document.getElementById("signup-password").value;
 
     try {
-      const response = await fetch(`${endpointUrl}api/v1/signup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://isa-c4-lyr2omuz4-joshhipkins-projects.vercel.app/api/v1/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
