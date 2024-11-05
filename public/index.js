@@ -1,7 +1,7 @@
 // Toggle the password reset form visibility
 
 //const endpointUrl = "http://localhost:3000/";
-const endpointUrl = "https://isa-c4p-93yf.onrender.com/";
+const endpointUrl = "https://isa-c4-lyr2omuz4-joshhipkins-projects.vercel.app";
 document
   .getElementById("forgot-password-link")
   .addEventListener("click", (event) => {
@@ -27,7 +27,7 @@ document
     const email = document.getElementById("reset-email").value;
 
     try {
-      const response = await fetch(`${endpointUrl}api/v1/login`, {
+      const response = await fetch(`${endpointUrl}/api/v1/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
