@@ -1,4 +1,4 @@
-const endpointUrl = "https://isa-c4p-ql4s.onrender.com/";
+const endpointUrl = "https://isa-c4p-4vqm.onrender.com/";
 
 document.addEventListener("DOMContentLoaded", async () => {
   // Check if user is authenticated on page load
