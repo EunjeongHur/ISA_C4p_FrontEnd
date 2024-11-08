@@ -61,9 +61,9 @@ document
       });
 
       const data = await response.json();
-      document.getElementById("responseMessage").textContent = response.ok;
-      // ? (window.location.href = "/main")
-      // : data.message || "Login Failed";
+      document.getElementById("responseMessage").textContent = response.ok
+        ? (window.location.href = "/main")
+        : data.message || "Login Failed";
     } catch (error) {
       console.error("Error:", error);
       document.getElementById("responseMessage").textContent =
