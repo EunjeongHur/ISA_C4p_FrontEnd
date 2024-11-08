@@ -6,7 +6,6 @@ const PORT = process.env.PORT || 3030;
 const publicDirectory = path.join(__dirname, "public");
 
 const server = http.createServer((req, res) => {
-  // Set the default file to index.html for the root URL
   let filePath;
   if (req.url === "/") {
     filePath = path.join(publicDirectory, "index.html");
@@ -14,11 +13,12 @@ const server = http.createServer((req, res) => {
     filePath = path.join(publicDirectory, "main.html");
   } else if (req.url === "/admin") {
     filePath = path.join(publicDirectory, "admin.html");
+  } else if (req.url.startsWith("/reset")) {
+    filePath = path.join(publicDirectory, "password-reset.html");
   } else {
     filePath = path.join(publicDirectory, req.url);
   }
 
-  // Determine the content type based on the file extension
   const extname = path.extname(filePath);
   let contentType = "text/html";
   switch (extname) {
@@ -41,20 +41,16 @@ const server = http.createServer((req, res) => {
       contentType = "text/html";
   }
 
-  // Read and serve the requested file
   fs.readFile(filePath, (err, content) => {
     if (err) {
-      // If file not found, serve a 404 error
       if (err.code === "ENOENT") {
         res.writeHead(404, { "Content-Type": "text/html" });
         res.end("<h1>404 - File Not Found</h1>", "utf8");
       } else {
-        // For any other server error
         res.writeHead(500);
         res.end(`Server Error: ${err.code}`, "utf8");
       }
     } else {
-      // Serve the file with the correct content type
       res.writeHead(200, { "Content-Type": contentType });
       res.end(content, "utf8");
     }
