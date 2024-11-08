@@ -41,10 +41,6 @@ const server = http.createServer((req, res) => {
       contentType = "text/html";
   }
 
-  console.log(
-    `Request URL: ${req.url}, Serving file: ${filePath} with content type: ${contentType}`
-  );
-
   fs.readFile(filePath, (err, content) => {
     if (err) {
       if (err.code === "ENOENT") {
