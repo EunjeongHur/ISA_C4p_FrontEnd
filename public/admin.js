@@ -70,6 +70,7 @@ function populateTable(users) {
     .querySelector("tbody");
   userTableBody.innerHTML = ""; // Clear existing rows
 
+  // Iterate over the users array
   users.forEach((user) => {
     const row = document.createElement("tr");
 
