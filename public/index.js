@@ -128,7 +128,7 @@ document
 
     try {
       const response = await fetch(
-        "https://isa-c4p-4vqm.onrender.com/api/v1/login",
+        "https://isa-c4p-4vqm.onrender.com/api/v1/signup",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
