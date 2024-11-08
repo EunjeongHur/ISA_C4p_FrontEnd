@@ -40,23 +40,26 @@ async function checkAdminAccess() {
 // Function to fetch users and populate the table
 async function loadUserTable() {
   try {
-    const response = await fetch(`${endpointUrl}api/v1/users`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include", // Send cookies with the request
-    });
+    const response = await fetch(
+      "https://isa-c4p-4vqm.onrender.com/api/v1/users",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Include cookies if using cookie-based auth
+      }
+    );
 
-    const users = await response.json();
-    console.log("Users:", users);
+    const data = await response.json();
 
-    if (response.ok) {
-      populateTable(users);
+    // Access the users array within the data object
+    if (response.ok && Array.isArray(data.users)) {
+      populateTable(data.users); // Pass the users array to populateTable
     } else {
       console.error(
-        "Failed to fetch users:",
-        users.message || response.statusText
+        "Failed to fetch users or users data is not an array:",
+        data
       );
     }
   } catch (error) {
