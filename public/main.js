@@ -34,10 +34,10 @@ async function checkAuthentication() {
 
 // Handle form submission for text summarization
 document
-  .getElementById("question-form")
+  .getElementById("text-form")
   .addEventListener("submit", async (event) => {
     event.preventDefault();
-    const text = document.getElementById("question").value;
+    const text = document.getElementById("text-input").value;
 
     try {
       // Send text to the AI summarization endpoint
