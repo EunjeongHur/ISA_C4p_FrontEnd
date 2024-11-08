@@ -1,8 +1,6 @@
-// Toggle the password reset form visibility
+const endpointUrl = "https://isa-c4p-4vqm.onrender.com";
 
-//const endpointUrl = "http://localhost:3000/";
-const endpointUrl =
-  "https://isa-c4-lyr2omuz4-joshhipkins-projects.vercel.app/api/v1/login";
+// Toggle the password reset form visibility
 document
   .getElementById("forgot-password-link")
   .addEventListener("click", (event) => {
@@ -28,60 +26,22 @@ document
     const email = document.getElementById("reset-email").value;
 
     try {
-      const response = await fetch(
-        "https://isa-c4p-4vqm.onrender.com/api/v1/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
-
-      console.log("Response status:", response.status);
+      const response = await fetch(`${endpointUrl}/api/v1/password-reset`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
       const data = await response.json();
-
-      if (response.ok) {
-        document.getElementById("resetMessage").textContent =
-          "If this email is registered, you will receive password reset instructions.";
-      } else {
-        document.getElementById("resetMessage").textContent =
-          data.message || "Unable to process password reset.";
-      }
+      document.getElementById("resetMessage").textContent = response.ok
+        ? "If this email is registered, you will receive password reset instructions."
+        : data.message || "Unable to process password reset.";
     } catch (error) {
       console.error("Error:", error);
       document.getElementById("resetMessage").textContent =
         "An error occurred. Please try again.";
     }
   });
-
-// Checks for a valid JWT token and redirects to main page if found.
-document.addEventListener("DOMContentLoaded", () => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    const tokenExpirationValid = isTokenValid(token);
-
-    if (tokenExpirationValid) {
-      window.location.href = "/main";
-      return;
-    } else {
-      localStorage.removeItem("token");
-    }
-  }
-});
-
-// Helper function for validating JWT token.
-function isTokenValid(token) {
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    const expiration = payload.exp * 1000;
-    return Date.now() < expiration;
-  } catch (error) {
-    console.error("Invalid token format");
-    return false;
-  }
-}
 
 // Handle login form submission
 document
@@ -93,27 +53,21 @@ document
     const password = document.getElementById("login-password").value;
 
     try {
-      const response = await fetch(
-        "https://isa-c4p-4vqm.onrender.com/api/v1/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const response = await fetch(`${endpointUrl}/api/v1/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+        credentials: "include", // Include credentials for cookies
+      });
 
       const data = await response.json();
-
-      if (response.ok) {
-        window.location.href = "/main";
-      } else {
-        document.getElementById("responseMessage").textContent =
-          data.message || "Login Failed";
-      }
+      document.getElementById("responseMessage").textContent = response.ok;
+      // ? (window.location.href = "/main")
+      // : data.message || "Login Failed";
     } catch (error) {
       console.error("Error:", error);
       document.getElementById("responseMessage").textContent =
-        "An error occurred. Please try again or reset your password";
+        "An error occurred. Please try again or reset your password.";
     }
   });
 
@@ -127,25 +81,17 @@ document
     const password = document.getElementById("signup-password").value;
 
     try {
-      const response = await fetch(
-        "https://isa-c4p-4vqm.onrender.com/api/v1/signup",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const response = await fetch(`${endpointUrl}/api/v1/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
       const data = await response.json();
-
-      if (response.ok) {
-        document.getElementById("responseMessage").textContent =
-          "Signup successful! You can now log in.";
-        document.getElementById("signup-form").reset();
-      } else {
-        document.getElementById("responseMessage").textContent =
-          data.message || "Signup failed. Please try again.";
-      }
+      document.getElementById("responseMessage").textContent = response.ok
+        ? "Signup successful! You can now log in."
+        : data.message || "Signup failed. Please try again.";
+      if (response.ok) document.getElementById("signup-form").reset();
     } catch (error) {
       console.error("Error:", error);
       document.getElementById("responseMessage").textContent =

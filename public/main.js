@@ -43,7 +43,6 @@ document
       const response = await fetch(`${endpointUrl}api/v1/summarizeText`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // Send cookies with the request
         body: JSON.stringify({ input: text }),
       });
 
