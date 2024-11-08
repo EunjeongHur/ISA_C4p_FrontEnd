@@ -17,7 +17,12 @@ document
         body: JSON.stringify({ token, newPassword }),
       });
       const data = await response.json();
-      document.getElementById("responseMessage").textContent = data.message;
+      if (response.ok) {
+        window.location.href = "/";
+      } else {
+        document.getElementById("responseMessage").textContent =
+          data.message || "Password reset failed.";
+      }
     } catch (error) {
       console.error("Error:", error);
       document.getElementById("responseMessage").textContent =
