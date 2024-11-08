@@ -47,7 +47,6 @@ document
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
-        credentials: "include", // Include this if you are sending cookies or need authentication
       });
 
       const data = await response.json();
