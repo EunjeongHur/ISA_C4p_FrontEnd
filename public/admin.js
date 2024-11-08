@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const isAdmin = await checkAdminAccess();
   if (!isAdmin) {
     alert("Access denied. Admins only.");
-    window.location.href = "/"; // Redirect non-admins to the home page or login
+    window.location.href = "/main"; // Redirect non-admins to the home page or login
     return;
   }
 

@@ -40,7 +40,9 @@ document
 
     try {
       // Send text to the AI summarization endpoint
-      const response = await fetch(`${endpointUrl}api/v1/summarizeText`, {
+
+      //add the AI endpoint URL here
+      const response = await fetch(`...`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ input: text }),
