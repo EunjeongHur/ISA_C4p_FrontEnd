@@ -49,6 +49,7 @@ async function loadUserTable() {
     });
 
     const users = await response.json();
+    console.log("Users:", users);
 
     if (response.ok) {
       populateTable(users);
