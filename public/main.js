@@ -38,7 +38,6 @@ document
   .addEventListener("submit", async (event) => {
     event.preventDefault();
     const text = document.getElementById("text-input").value;
-    console.log(JSON.stringify({ input: text }));
 
 
     try {
@@ -50,10 +49,8 @@ document
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ input: text }), // Use 'input' as the key
       });
-      console.log(response);
 
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
         addResponseCard(data.summary || "No response received.");
 
@@ -69,7 +66,7 @@ document
     }
 
     // Clear the text field for new input
-    document.getElementById("question").value = "";
+    document.getElementById("text-input").value = "";
   });
 
 // Function to increment request count on the user API
