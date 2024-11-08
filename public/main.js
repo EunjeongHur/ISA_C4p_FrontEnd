@@ -38,6 +38,8 @@ document
   .addEventListener("submit", async (event) => {
     event.preventDefault();
     const text = document.getElementById("text-input").value;
+    console.log(JSON.stringify({ input: text }));
+
 
     try {
       // Send text to the AI summarization endpoint
@@ -46,7 +48,7 @@ document
       const response = await fetch(`${AIServiceEndpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ input: text }), // Use 'input' as the key
       });
       console.log(response);
 
