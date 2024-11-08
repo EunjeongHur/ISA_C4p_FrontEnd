@@ -14,6 +14,8 @@ const server = http.createServer((req, res) => {
     filePath = path.join(publicDirectory, "main.html");
   } else if (req.url === "/admin") {
     filePath = path.join(publicDirectory, "admin.html");
+  } else if (req.url.startsWith("/reset")) {
+    filePath = path.join(publicDirectory, "password-reset.html");
   } else {
     filePath = path.join(publicDirectory, req.url);
   }
