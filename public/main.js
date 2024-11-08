@@ -48,9 +48,10 @@ document
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
       });
+      console.log(response);
 
       const data = await response.json();
-
+      console.log(data);
       if (response.ok) {
         addResponseCard(data.summary || "No response received.");
 
