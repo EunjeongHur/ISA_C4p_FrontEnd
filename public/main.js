@@ -15,25 +15,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Function to check if the user is authenticated
 async function checkAuthentication() {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    console.log("No token found");
-    return false; // No token found, so user is not authenticated
-  }
-
   try {
-    // Verify the token with a backend endpoint
+    // Verify authentication with the backend
     const response = await fetch(`${endpointUrl}api/v1/verify-token`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      credentials: "include", // Send cookies with the request
     });
-    return response.ok; // True if the token is valid
+    return response.ok; // True if the user is authenticated
   } catch (error) {
     console.error("Authentication error:", error);
-    localStorage.removeItem("token");
     return false;
   }
 }
@@ -50,6 +43,7 @@ document
       const response = await fetch(`${endpointUrl}api/v1/summarizeText`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // Send cookies with the request
         body: JSON.stringify({ input: text }),
       });
 
@@ -69,22 +63,21 @@ document
       addResponseCard("An error occurred. Please try again.");
     }
 
-    // Clear the text field for a new input
+    // Clear the text field for new input
     document.getElementById("question").value = "";
   });
 
 // Function to increment request count on the user API
 async function incrementRequestCount() {
   try {
-    const token = localStorage.getItem("token");
     const response = await fetch(
       `${endpointUrl}api/v1/increment-request-count`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
+        credentials: "include", // Send cookies with the request
       }
     );
     if (!response.ok) {
@@ -98,13 +91,12 @@ async function incrementRequestCount() {
 // Function to check request count and display a warning if at or above limit
 async function checkRequestCount() {
   try {
-    const token = localStorage.getItem("token");
     const response = await fetch(`${endpointUrl}api/v1/request-count`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      credentials: "include", // Send cookies with the request
     });
     const data = await response.json();
 

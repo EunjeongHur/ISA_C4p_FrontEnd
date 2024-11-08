@@ -104,8 +104,7 @@ document
 
       const data = await response.json();
 
-      if (response.ok && data.token) {
-        localStorage.setItem("token", data.token);
+      if (response.ok) {
         window.location.href = "/main";
       } else {
         document.getElementById("responseMessage").textContent =

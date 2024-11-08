@@ -14,20 +14,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Function to check if the user is an admin
 async function checkAdminAccess() {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    console.warn("No token found, redirecting to login.");
-    return false; // Token missing, user is not authenticated
-  }
-
   try {
     const response = await fetch(`${endpointUrl}api/v1/check-role`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      credentials: "include", // Send cookies with the request
     });
     const data = await response.json();
 
@@ -47,13 +40,12 @@ async function checkAdminAccess() {
 // Function to fetch users and populate the table
 async function loadUserTable() {
   try {
-    const token = localStorage.getItem("token");
     const response = await fetch(`${endpointUrl}api/v1/users`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      credentials: "include", // Send cookies with the request
     });
 
     const users = await response.json();
