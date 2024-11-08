@@ -1,4 +1,5 @@
 const endpointUrl = "https://isa-c4p-4vqm.onrender.com/";
+const AIServiceEndpoint = "https://isa-c4p-ai-service.onrender.com/process-text";
 
 document.addEventListener("DOMContentLoaded", async () => {
   // Check if user is authenticated on page load
@@ -42,10 +43,10 @@ document
       // Send text to the AI summarization endpoint
 
       //add the AI endpoint URL here
-      const response = await fetch(`...`, {
+      const response = await fetch(`${AIServiceEndpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input: text }),
+        body: JSON.stringify({ text }),
       });
 
       const data = await response.json();
