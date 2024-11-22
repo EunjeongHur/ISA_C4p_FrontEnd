@@ -67,33 +67,67 @@ async function loadUserTable() {
   }
 }
 
-// Function to populate the table with user data
 function populateTable(users) {
   const userTableBody = document
     .getElementById("userTable")
     .querySelector("tbody");
   userTableBody.innerHTML = ""; // Clear existing rows
 
-  // Iterate over the users array
   users.forEach((user) => {
-    const row = document.createElement("tr");
+    // Main user row
+    const userRow = document.createElement("tr");
 
-    // Create table cells for each field
     const userIdCell = document.createElement("td");
-    userIdCell.textContent = user.user_id;
+    userIdCell.textContent = user.userId;
 
     const emailCell = document.createElement("td");
     emailCell.textContent = user.email;
 
-    const requestCountCell = document.createElement("td");
-    requestCountCell.textContent = user.request_count;
+    const totalRequestsCell = document.createElement("td");
+    totalRequestsCell.textContent = user.totalAiRequests;
 
-    // Append cells to the row
-    row.appendChild(userIdCell);
-    row.appendChild(emailCell);
-    row.appendChild(requestCountCell);
+    userRow.appendChild(userIdCell);
+    userRow.appendChild(emailCell);
+    userRow.appendChild(totalRequestsCell);
 
-    // Append row to the table body
-    userTableBody.appendChild(row);
+    userTableBody.appendChild(userRow);
+
+    // Add sub-header row for Route, Method, and Count
+    const subHeaderRow = document.createElement("tr");
+
+    const routeHeaderCell = document.createElement("th");
+    routeHeaderCell.textContent = "Route";
+
+    const methodHeaderCell = document.createElement("th");
+    methodHeaderCell.textContent = "Method";
+
+    const countHeaderCell = document.createElement("th");
+    countHeaderCell.textContent = "Count";
+
+    subHeaderRow.appendChild(routeHeaderCell);
+    subHeaderRow.appendChild(methodHeaderCell);
+    subHeaderRow.appendChild(countHeaderCell);
+
+    userTableBody.appendChild(subHeaderRow);
+
+    // Sub-rows for each API request
+    user.apiRequests.forEach((request) => {
+      const detailRow = document.createElement("tr");
+
+      const routeCell = document.createElement("td");
+      routeCell.textContent = request.route;
+
+      const methodCell = document.createElement("td");
+      methodCell.textContent = request.method;
+
+      const countCell = document.createElement("td");
+      countCell.textContent = request.count;
+
+      detailRow.appendChild(routeCell);
+      detailRow.appendChild(methodCell);
+      detailRow.appendChild(countCell);
+
+      userTableBody.appendChild(detailRow);
+    });
   });
 }
