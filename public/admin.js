@@ -86,9 +86,19 @@ function populateTable(users) {
     const totalRequestsCell = document.createElement("td");
     totalRequestsCell.textContent = user.totalAiRequests;
 
+    const actionCell = document.createElement("td");
+    const actionButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.className = "btn btn-danger";
+    deleteButton.onClick = async () => {
+      await deleteUser(user.userId);
+    };
+    actionCell.appendChild(actionButton);
+
     userRow.appendChild(userIdCell);
     userRow.appendChild(emailCell);
     userRow.appendChild(totalRequestsCell);
+    userRow.appendChild(actionCell);
 
     userTableBody.appendChild(userRow);
 
@@ -130,4 +140,30 @@ function populateTable(users) {
       userTableBody.appendChild(detailRow);
     });
   });
+}
+
+async function deleteUser(userId) {
+  const confirmed = confirm("Are you sure you want to delete this user?");
+  if (!confirmed) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/v1/users/${userId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include", // Include cookies if using cookie-based auth
+    });
+    if (response.ok) {
+      alert("User deleted successfully.");
+      await loadUserTable();
+    } else {
+      alert("Failed to delete user.");
+    }
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    alert("Failed to delete user.");
+  }
 }
