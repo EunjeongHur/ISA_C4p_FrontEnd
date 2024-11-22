@@ -10,7 +10,7 @@ document
 
     try {
       const response = await fetch(`${endpointUrl}/api/v1/update-password`, {
-        method: "POST",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, newPassword }),
       });
