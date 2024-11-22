@@ -87,7 +87,7 @@ function populateTable(users) {
     totalRequestsCell.textContent = user.totalAiRequests;
 
     const actionCell = document.createElement("td");
-    const actionButton = document.createElement("button");
+    const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.className = "btn btn-danger";
     deleteButton.onClick = async () => {
