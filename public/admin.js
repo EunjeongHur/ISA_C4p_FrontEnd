@@ -149,11 +149,12 @@ async function deleteUser(userId) {
   }
 
   try {
-    const response = await fetch(`/api/v1/users/${userId}`, {
+    const response = await fetch(`/api/v1/users/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ userId }),
       credentials: "include", // Include cookies if using cookie-based auth
     });
     if (response.ok) {
