@@ -34,10 +34,11 @@ async function checkAuthentication() {
 
 // Handle form submission for text summarization
 document
-  .getElementById("question-form")
+  .getElementById("text-form")
   .addEventListener("submit", async (event) => {
     event.preventDefault();
-    const text = document.getElementById("question").value;
+    const text = document.getElementById("text-input").value;
+
 
     try {
       // Send text to the AI summarization endpoint
@@ -46,11 +47,10 @@ document
       const response = await fetch(`${AIServiceEndpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ input: text }), // Use 'input' as the key
       });
 
       const data = await response.json();
-
       if (response.ok) {
         addResponseCard(data.summary || "No response received.");
 
@@ -66,7 +66,7 @@ document
     }
 
     // Clear the text field for new input
-    document.getElementById("question").value = "";
+    document.getElementById("text-input").value = "";
   });
 
 // Function to increment request count on the user API
