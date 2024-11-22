@@ -93,7 +93,7 @@ function populateTable(users) {
     deleteButton.onClick = async () => {
       await deleteUser(user.userId);
     };
-    actionCell.appendChild(actionButton);
+    actionCell.appendChild(deleteButton);
 
     userRow.appendChild(userIdCell);
     userRow.appendChild(emailCell);
