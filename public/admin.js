@@ -147,14 +147,17 @@ async function deleteUser(userId) {
   }
 
   try {
-    const response = await fetch(`/api/v1/users/delete`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId }),
-      credentials: "include", // Include cookies if using cookie-based auth
-    });
+    const response = await fetch(
+      `https://isa-c4p-4vqm.onrender.com/api/v1/users/delete`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
+        credentials: "include", // Include cookies if using cookie-based auth
+      }
+    );
     if (response.ok) {
       alert("User deleted successfully.");
       await loadUserTable();
