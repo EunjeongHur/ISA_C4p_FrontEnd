@@ -90,9 +90,7 @@ function populateTable(users) {
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.className = "btn btn-danger";
-    deleteButton.onClick = async () => {
-      await deleteUser(user.userId);
-    };
+    deleteButton.addEventListener("click", () => deleteUser(user.userId));
     actionCell.appendChild(deleteButton);
 
     userRow.appendChild(userIdCell);
