@@ -1,5 +1,14 @@
 const endpointUrl = "https://isa-c4p-4vqm.onrender.com/";
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("logoutButton").textContent = messages.logout;
+  document.getElementById("requestCounts-text").textContent = messages.requestCount;
+  document.getElementById("userId-text").textContent = messages.userId;
+  document.getElementById("totalRequests-text").textContent = messages.totalRequests;
+  document.getElementById("actions-text").textContent = messages.actions;
+  document.getElementById("email-text").textContent = messages.email;
+});
+
 document.addEventListener("DOMContentLoaded", async () => {
   const isAdmin = await checkAdminAccess();
   if (!isAdmin) {

@@ -13,10 +13,10 @@
   </head>
   <body class="bg-light">
     <div class="d-flex justify-content-end m-3">
-      <button id="logoutButton" class="btn btn-danger">Logout</button>
+      <button id="logoutButton" class="btn btn-danger"></button>
     </div>
     <div class="container mt-5">
-      <h1 class="text-center mb-4">Summarize Your Text</h1>
+      <h1 id="summarizeYourText-text" class="text-center mb-4"></h1>
 
       <!-- Warning Message Container -->
       <div
@@ -29,10 +29,10 @@
 
       <!-- Text Submission Form -->
       <div id="text-section" class="card p-4 mb-4">
-        <h2 class="card-title text-center">Submit Your Text</h2>
+        <h2 id="submitYourText-text" class="card-title text-center"></h2>
         <form id="text-form">
           <div class="mb-3">
-            <label for="text-input" class="form-label">Your Text</label>
+            <label id="yourText-text" for="text-input" class="form-label"></label>
             <textarea
               id="text-input"
               class="form-control"
@@ -41,9 +41,7 @@
               required
             ></textarea>
           </div>
-          <button type="submit" class="btn btn-primary w-100">
-            Summarize Text
-          </button>
+          <button id="summarizeText-text" type="submit" class="btn btn-primary w-100"></button>
         </form>
       </div>
 
@@ -53,6 +51,7 @@
       </div>
     </div>
 
+    <script src="messages.js"></script>
     <script src="main.js"></script>
     <script src="logout.js"></script>
   </body>

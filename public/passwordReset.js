@@ -1,5 +1,10 @@
 const endpointUrl = "https://isa-c4p-4vqm.onrender.com"; // Update this to your backend URL
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("resetYourPassword-text").textContent = messages.resetYourPassword;
+  document.getElementById("resetPassword-text").textContent = messages.resetPassword;
+});
+
 document
   .getElementById("resetForm")
   .addEventListener("submit", async (event) => {

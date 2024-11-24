@@ -13,19 +13,19 @@
   </head>
   <body class="bg-light">
     <div class="d-flex justify-content-end m-3">
-      <button id="logoutButton" class="btn btn-danger">Logout</button>
+      <button id="logoutButton" class="btn btn-danger"></button>
     </div>
     <div class="container mt-5">
-      <h1 class="text-center mb-4">User Request Counts</h1>
+      <h1 id="requestCounts-text" class="text-center mb-4"></h1>
 
       <!-- User Table -->
       <table class="table table-striped" id="userTable">
         <thead>
           <tr>
-            <th>User ID</th>
-            <th>Email</th>
-            <th>Total AI Requests</th>
-            <th>Actions</th>
+            <th id="userId-text"></th>
+            <th id="email-text"></th>
+            <th id="totalRequests-text"></th>
+            <th id="actions-text"></th>
           </tr>
         </thead>
         <tbody>
@@ -34,6 +34,7 @@
       </table>
     </div>
 
+    <script src="messages.js"></script>
     <script src="admin.js"></script>
     <script src="logout.js"></script>
   </body>

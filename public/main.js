@@ -1,6 +1,14 @@
 const endpointUrl = "https://isa-c4p-4vqm.onrender.com/";
 const AIServiceEndpoint = "https://isa-c4p-ai-service.onrender.com/process-text";
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("logoutButton").textContent = messages.logout;
+  document.getElementById("summarizeYourText-text").textContent = messages.summarizeYourText;
+  document.getElementById("yourText-text").textContent = messages.yourText;
+  document.getElementById("submitYourText-text").textContent = messages.submitYourText;
+  document.getElementById("summarizeText-text").textContent = messages.summarizeText;
+});
+
 document.addEventListener("DOMContentLoaded", async () => {
   // Check if user is authenticated on page load
   const isAuthenticated = await checkAuthentication();
