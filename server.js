@@ -1,27 +1,26 @@
 const http = require("http");
-const https = require("https")
+const https = require("https");
 const fs = require("fs");
 const path = require("path");
 
 const PORT = process.env.PORT || 3030;
 const publicDirectory = path.join(__dirname, "public");
 
-const backendBaseUrl = "isa-c4p-ql4s.onrender.com"; // Backend hostname
-const backendProtocol = https;
+const backendHost = "isa-c4p-ql4s.onrender.com";// Backend hostname
 
 
 const server = http.createServer((req, res) => {
   if (req.url.startsWith("/api/doc")) {
     // Proxy requests for Swagger UI to the backend
     const options = {
-      hostname: backendBaseUrl,
+      hostname: backendHost,
       port: 443, // HTTPS default port
       path: req.url, // Forward the full path
       method: req.method,
       headers: req.headers,
     };
 
-    const proxy = http.request(options, (backendRes) => {
+    const proxy = https.request(options, (backendRes) => {
       res.writeHead(backendRes.statusCode, backendRes.headers);
       backendRes.pipe(res, { end: true });
     });
