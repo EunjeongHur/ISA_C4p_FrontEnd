@@ -1,4 +1,5 @@
-const endpointUrl = "https://isa-c4p-4vqm.onrender.com/";
+// const endpointUrl = "https://isa-c4p-4vqm.onrender.com/";
+const endpointUrl = "https://localhost:8080";
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("logoutButton").textContent = messages.logout;

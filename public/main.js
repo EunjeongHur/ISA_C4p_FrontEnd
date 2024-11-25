@@ -1,4 +1,5 @@
-const endpointUrl = "https://isa-c4p-4vqm.onrender.com/";
+// const endpointUrl = "https://isa-c4p-4vqm.onrender.com/";
+const endpointUrl = "https://localhost:8080";
 const AIServiceEndpoint = "https://isa-c4p-ai-service.onrender.com/process-text";
 
 document.addEventListener("DOMContentLoaded", () => {
