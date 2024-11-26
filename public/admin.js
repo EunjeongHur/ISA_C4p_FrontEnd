@@ -80,76 +80,94 @@ async function loadUserTable() {
 }
 
 function populateTable(users) {
-	const userTableBody = document
-		.getElementById("userTable")
-		.querySelector("tbody");
-	userTableBody.innerHTML = ""; // Clear existing rows
+    const userTable = document.getElementById("userTable");
+    const userTableBody = userTable.querySelector("tbody");
+    userTableBody.innerHTML = ""; // Clear existing rows
 
-	users.forEach((user) => {
-		// Main user row
-		const userRow = document.createElement("tr");
+    users.forEach((user) => {
+        const requestCount = user.apiRequests.length || 1;
 
-		const userIdCell = document.createElement("td");
-		userIdCell.textContent = user.userId;
+        // For the first row, we'll populate all cells
+        const userRow = document.createElement("tr");
 
-		const emailCell = document.createElement("td");
-		emailCell.textContent = user.email;
+        const userIdCell = document.createElement("td");
+        userIdCell.textContent = user.userId;
+        userIdCell.rowSpan = requestCount;
 
-		const totalRequestsCell = document.createElement("td");
-		totalRequestsCell.textContent = user.totalAiRequests;
+        const emailCell = document.createElement("td");
+        emailCell.textContent = user.email;
+        emailCell.rowSpan = requestCount;
 
-		const actionCell = document.createElement("td");
-		const deleteButton = document.createElement("button");
-		deleteButton.textContent = "Delete";
-		deleteButton.className = "btn btn-danger";
-		deleteButton.addEventListener("click", () => deleteUser(user.userId));
-		actionCell.appendChild(deleteButton);
+        const totalRequestsCell = document.createElement("td");
+        totalRequestsCell.textContent = user.totalAiRequests;
+        totalRequestsCell.rowSpan = requestCount;
 
-		userRow.appendChild(userIdCell);
-		userRow.appendChild(emailCell);
-		userRow.appendChild(totalRequestsCell);
-		userRow.appendChild(actionCell);
+        const actionCell = document.createElement("td");
+        actionCell.rowSpan = requestCount;
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "btn btn-danger";
+        deleteButton.addEventListener("click", () => deleteUser(user.userId));
+        actionCell.appendChild(deleteButton);
 
-		userTableBody.appendChild(userRow);
+        userRow.appendChild(userIdCell);
+        userRow.appendChild(emailCell);
+        userRow.appendChild(totalRequestsCell);
+        userRow.appendChild(actionCell);
 
-		// Add sub-header row for Route, Method, and Count
-		const subHeaderRow = document.createElement("tr");
+        // Now, for the first API request (if any)
+        if (user.apiRequests.length > 0) {
+            const firstRequest = user.apiRequests[0];
 
-		const routeHeaderCell = document.createElement("th");
-		routeHeaderCell.textContent = "Route";
+            const routeCell = document.createElement("td");
+            routeCell.textContent = firstRequest.route;
 
-		const methodHeaderCell = document.createElement("th");
-		methodHeaderCell.textContent = "Method";
+            const methodCell = document.createElement("td");
+            methodCell.textContent = firstRequest.method;
 
-		const countHeaderCell = document.createElement("th");
-		countHeaderCell.textContent = "Count";
+            const countCell = document.createElement("td");
+            countCell.textContent = firstRequest.count;
 
-		subHeaderRow.appendChild(routeHeaderCell);
-		subHeaderRow.appendChild(methodHeaderCell);
-		subHeaderRow.appendChild(countHeaderCell);
+            userRow.appendChild(routeCell);
+            userRow.appendChild(methodCell);
+            userRow.appendChild(countCell);
 
-		userTableBody.appendChild(subHeaderRow);
+            userTableBody.appendChild(userRow);
 
-		// Sub-rows for each API request
-		user.apiRequests.forEach((request) => {
-			const detailRow = document.createElement("tr");
+            // For the rest of the API requests
+            for (let i = 1; i < user.apiRequests.length; i++) {
+                const request = user.apiRequests[i];
+                const requestRow = document.createElement("tr");
 
-			const routeCell = document.createElement("td");
-			routeCell.textContent = request.route;
+                const routeCell = document.createElement("td");
+                routeCell.textContent = request.route;
 
-			const methodCell = document.createElement("td");
-			methodCell.textContent = request.method;
+                const methodCell = document.createElement("td");
+                methodCell.textContent = request.method;
 
-			const countCell = document.createElement("td");
-			countCell.textContent = request.count;
+                const countCell = document.createElement("td");
+                countCell.textContent = request.count;
 
-			detailRow.appendChild(routeCell);
-			detailRow.appendChild(methodCell);
-			detailRow.appendChild(countCell);
+                requestRow.appendChild(routeCell);
+                requestRow.appendChild(methodCell);
+                requestRow.appendChild(countCell);
 
-			userTableBody.appendChild(detailRow);
-		});
-	});
+                userTableBody.appendChild(requestRow);
+            }
+        } else {
+            // If no API requests, just append the user row
+            // Add empty cells for Route, Method, and Count
+            const emptyRouteCell = document.createElement("td");
+            const emptyMethodCell = document.createElement("td");
+            const emptyCountCell = document.createElement("td");
+
+            userRow.appendChild(emptyRouteCell);
+            userRow.appendChild(emptyMethodCell);
+            userRow.appendChild(emptyCountCell);
+
+            userTableBody.appendChild(userRow);
+        }
+    });
 }
 
 async function deleteUser(userId) {
